@@ -1,6 +1,7 @@
 import time
 import math
 import random
+from decouple import config
 from slacker import Slacker
 
 '''
@@ -29,12 +30,13 @@ def getIndex(size, mon, day):
 			#print "size <= temp", index
 	return int(index)
 
-token = 'TOKEN'
-slack = Slacker(token)
+TOKEN = config("API_TOKEN")
+PATH = config("PHRASE_PATH")
+slack = Slacker(TOKEN)
 
 now = time.localtime()
 
-with open("./phrase.txt", "r") as f:
+with open(PATH, "r") as f:
 	lines = f.readlines()
 	psize=len(lines) #phrase size
 	select_idx = getIndex(psize, now.tm_mon, now.tm_mday)
