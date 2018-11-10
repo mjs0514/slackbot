@@ -31,13 +31,14 @@ class BotBase:
         text = kwargs.pop('text', '')
 
         if user and text and text.startswith('!'):
-            cmd, query = text[1:].split(':', 1)
+            cmd = text[1:]
+            query = ""
             fn_name = 'cmd_' + cmd
             fn = getattr(self, fn_name, None)
             if callable(fn):
                 fn(channel, user, query)
             else:
-                self.post_messaege(channel, "지원하지 않는 명령어 입니다.")
+                self.post_message(channel, "지원하지 않는 명령어 입니다.")
 
     def post_message(self, channel, text):
         self.send({
@@ -50,7 +51,7 @@ class BotBase:
         try:
             while True:
                 response = self.recv()
-                print(response)
+                # print(response)
                 if 'type' in response:
                     fn_name = 'on_' + response.pop('type')
                     fn = getattr(self, fn_name, None)
